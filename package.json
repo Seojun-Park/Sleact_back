@@ -27,6 +27,7 @@
     "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.1.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express-session": "^1.17.4",
     "@types/passport": "^1.0.7",
@@ -36,7 +37,8 @@
     "pretty-quick": "^3.1.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
