@@ -12,7 +12,7 @@ describe('DmsService', () => {
     service = module.get<DmsService>(DmsService);
   });
 
-  // it('should be defined', () => {
-  //   expect(service).toBeDefined();
-  // });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 });

@@ -12,7 +12,7 @@ describe('ChannelsService', () => {
     service = module.get<ChannelsService>(ChannelsService);
   });
 
-  // it('should be defined', () => {
-  //   expect(service).toBeDefined();
-  // });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 });
