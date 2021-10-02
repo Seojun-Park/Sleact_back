@@ -12,14 +12,19 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
 import { WorkspacesController } from './workspaces/workspaces.controller';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as ormConfig from '../ormconfig';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UsersModule,
     WorkspacesModule,
     ChannelsModule,
     DmsModule,
+    TypeOrmModule.forRoot(ormConfig),
   ],
   controllers: [
     AppController,
