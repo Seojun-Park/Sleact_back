@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from '../entities/Users';
@@ -11,9 +11,9 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
   async join(email: string, nickname: string, password: string) {
-    if (!email) throw new Error('no email');
-    if (!nickname) throw new Error('no nickname');
-    if (!password) throw new Error('no password');
+    if (!email) throw new HttpException('no email', 400);
+    if (!nickname) throw new HttpException('no email', 400);
+    if (!password) throw new HttpException('no email', 400);
     const user = this.usersRepository.findOne({ where: { email } });
     if (user) {
       throw new Error('USER_EXISTED');
