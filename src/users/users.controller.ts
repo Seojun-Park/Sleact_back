@@ -21,8 +21,8 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Sign up' })
   @Post()
-  postUsers(@Body() data: JoinRequestDto) {
-    this.userService.postUsers(data.email, data.nickname, data.password);
+  join(@Body() data: JoinRequestDto) {
+    this.userService.join(data.email, data.nickname, data.password);
   }
 
   @ApiResponse({

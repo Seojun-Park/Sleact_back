@@ -14,6 +14,7 @@ import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormConfig from '../ormconfig';
+import { Users } from './entities/Users';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import * as ormConfig from '../ormconfig';
     ChannelsModule,
     DmsModule,
     TypeOrmModule.forRoot(ormConfig),
+    TypeOrmModule.forFeature([Users]),
   ],
   controllers: [
     AppController,
