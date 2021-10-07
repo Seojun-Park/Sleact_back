@@ -4,12 +4,15 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import session from 'express-session';
 import passport from 'passport';
+import { HttpExceptionFilter } from './httpException.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()
     .setTitle('Sleact API document')
     .setDescription('Selact API document for Sleact development')
@@ -40,7 +43,7 @@ async function bootstrap() {
 
   if (module.hot) {
     module.hot.accept();
-    module.hot.dispose(() => app.close);
+    module.hot.dispose(() => app.close());
   }
 }
 bootstrap();

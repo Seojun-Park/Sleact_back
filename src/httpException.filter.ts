@@ -14,7 +14,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
     const err = exception.getResponse() as
       | string
-      | { error: string; status: 400; message: string[] };
+      | { error: string; status: 400; message: string[] }; // class-validator
 
     if (typeof err !== 'string' && err.error === 'Bad Request') {
       return response.status(status).json({
@@ -23,5 +23,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
         data: err.message,
       });
     }
+    response.status(status).json({
+      success: false,
+      code: status,
+      data: err,
+    });
   }
 }

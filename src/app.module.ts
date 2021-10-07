@@ -15,18 +15,31 @@ import { UsersService } from './users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormConfig from '../ormconfig';
 import { Users } from './entities/Users';
+import { AuthModule } from './auth/auth.module';
+import { WorkspaceMembers } from './entities/WorkspaceMembers';
+import { ChannelMembers } from './entities/ChannelMembers';
+import { Workspaces } from './entities/Workspaces';
+import { Channels } from './entities/Channels';
+import { WorkspacesService } from './workspaces/workspaces.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    AuthModule,
     UsersModule,
     WorkspacesModule,
     ChannelsModule,
     DmsModule,
     TypeOrmModule.forRoot(ormConfig),
-    TypeOrmModule.forFeature([Users]),
+    TypeOrmModule.forFeature([
+      Users,
+      WorkspaceMembers,
+      ChannelMembers,
+      Workspaces,
+      Channels,
+    ]),
   ],
   controllers: [
     AppController,
@@ -35,7 +48,7 @@ import { Users } from './entities/Users';
     ChannelsController,
     DmsController,
   ],
-  providers: [AppService, UsersService],
+  providers: [AppService, UsersService, WorkspacesService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
