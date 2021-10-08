@@ -7,6 +7,4 @@ export class AppService {
   async getHello() {
     return 'Hello World!';
   }
-
-  async postUser() {}
 }

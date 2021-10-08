@@ -21,6 +21,10 @@ import { ChannelMembers } from './entities/ChannelMembers';
 import { Workspaces } from './entities/Workspaces';
 import { Channels } from './entities/Channels';
 import { WorkspacesService } from './workspaces/workspaces.service';
+import { ChannelsService } from './channels/channels.service';
+import { ChannelChats } from './entities/ChannelChats';
+import { EventsModule } from './events/events.module';
+import { EventsGateway } from './events/events.gateway';
 
 @Module({
   imports: [
@@ -39,7 +43,9 @@ import { WorkspacesService } from './workspaces/workspaces.service';
       ChannelMembers,
       Workspaces,
       Channels,
+      ChannelChats,
     ]),
+    EventsModule,
   ],
   controllers: [
     AppController,
@@ -48,7 +54,13 @@ import { WorkspacesService } from './workspaces/workspaces.service';
     ChannelsController,
     DmsController,
   ],
-  providers: [AppService, UsersService, WorkspacesService],
+  providers: [
+    AppService,
+    UsersService,
+    WorkspacesService,
+    ChannelsService,
+    EventsGateway,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {

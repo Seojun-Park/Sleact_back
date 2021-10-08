@@ -1,13 +1,22 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { Connection } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { Users } from '../entities/Users';
 import bcrypt from 'bcrypt';
 import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 import { ChannelMembers } from '../entities/ChannelMembers';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Workspaces } from '../entities/Workspaces';
+import { Channels } from '../entities/Channels';
 
 @Injectable()
 export class UsersService {
-  constructor(private connection: Connection) {}
+  constructor(
+    private connection: Connection,
+    @InjectRepository(Workspaces)
+    private workspacesRepository: Repository<Workspaces>,
+    @InjectRepository(Channels)
+    private channelsRepository: Repository<Channels>,
+  ) {}
 
   async join(email: string, nickname: string, password: string) {
     const queryRunner = this.connection.createQueryRunner();
@@ -26,6 +35,21 @@ export class UsersService {
         nickname,
         password: hashedPassword,
       });
+      const workspace = await this.workspacesRepository.findOne({
+        where: { id: 1 },
+      });
+      if (!workspace) {
+        const newWorkspace = new Workspaces();
+        newWorkspace.name = 'sleact';
+        newWorkspace.url = 'sleact';
+        const savedWorkspace = await this.workspacesRepository.save(
+          newWorkspace,
+        );
+        const newChannel = new Channels();
+        newChannel.name = 'general';
+        newChannel.WorkspaceId = savedWorkspace.id;
+        await this.channelsRepository.save(newChannel);
+      }
       await queryRunner.manager.getRepository(WorkspaceMembers).save({
         UserId: returned.id,
         WorkspaceId: 1,
