@@ -1,69 +1,39 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { UsersModule } from './users/users.module';
-import { DmsModule } from './dms/dms.module';
-import { DmsController } from './dms/dms.controller';
-import { ChannelsModule } from './channels/channels.module';
-import { ChannelsController } from './channels/channels.controller';
+import * as ormconfig from '../ormconfig';
 import { WorkspacesModule } from './workspaces/workspaces.module';
-import { WorkspacesController } from './workspaces/workspaces.controller';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import * as ormConfig from '../ormconfig';
-import { Users } from './entities/Users';
-import { AuthModule } from './auth/auth.module';
-import { WorkspaceMembers } from './entities/WorkspaceMembers';
-import { ChannelMembers } from './entities/ChannelMembers';
-import { Workspaces } from './entities/Workspaces';
-import { Channels } from './entities/Channels';
-import { WorkspacesService } from './workspaces/workspaces.service';
-import { ChannelsService } from './channels/channels.service';
-import { ChannelChats } from './entities/ChannelChats';
+import { ChannelsModule } from './channels/channels.module';
 import { EventsModule } from './events/events.module';
-import { EventsGateway } from './events/events.gateway';
+import { DMsModule } from './dms/dms.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(ormconfig),
     AuthModule,
     UsersModule,
     WorkspacesModule,
     ChannelsModule,
-    DmsModule,
-    TypeOrmModule.forRoot(ormConfig),
-    TypeOrmModule.forFeature([
-      Users,
-      WorkspaceMembers,
-      ChannelMembers,
-      Workspaces,
-      Channels,
-      ChannelChats,
-    ]),
     EventsModule,
+    DMsModule,
   ],
-  controllers: [
-    AppController,
-    UsersController,
-    WorkspacesController,
-    ChannelsController,
-    DmsController,
-  ],
-  providers: [
-    AppService,
-    UsersService,
-    WorkspacesService,
-    ChannelsService,
-    EventsGateway,
-  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): any {
+  configure(consumer: MiddlewareConsumer): void {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }

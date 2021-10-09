@@ -5,8 +5,8 @@ import { Channels } from '../entities/Channels';
 import { Users } from '../entities/Users';
 import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 import { Workspaces } from '../entities/Workspaces';
-import { WorkspacesController } from './workspaces.controller';
 import { WorkspacesService } from './workspaces.service';
+import { WorkspacesController } from './workspaces.controller';
 
 @Module({
   imports: [

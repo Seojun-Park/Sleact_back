@@ -4,25 +4,22 @@ import { ChannelChats } from '../entities/ChannelChats';
 import { ChannelMembers } from '../entities/ChannelMembers';
 import { Channels } from '../entities/Channels';
 import { Users } from '../entities/Users';
-import { WorkspaceMembers } from '../entities/WorkspaceMembers';
 import { Workspaces } from '../entities/Workspaces';
-import { EventsModule } from '../events/events.module';
-import { ChannelsController } from './channels.controller';
+import { EventsGateway } from '../events/events.gateway';
 import { ChannelsService } from './channels.service';
+import { ChannelsController } from './channels.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Channels,
       ChannelChats,
-      ChannelMembers,
       Users,
       Workspaces,
-      WorkspaceMembers,
+      ChannelMembers,
     ]),
-    EventsModule,
   ],
-  providers: [ChannelsService],
+  providers: [ChannelsService, EventsGateway],
   controllers: [ChannelsController],
 })
 export class ChannelsModule {}
